@@ -25,6 +25,7 @@ public class SelectTest {
 	@Mock Connection connection;
 	@Mock PreparedStatement statement;
 	@Mock ResultSet resultSet;
+	Object object = new Object();
 
 	@Before public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
@@ -36,13 +37,15 @@ public class SelectTest {
 	}
 
 	@Test public void testFromWithoutConditionsIsCalled() throws Exception {
-		new Select(source).from("a").execute(this::verifySet);
+		Object result = new Select(source).from("a").execute(this::verifySet);
 		verify(connection).prepareStatement("SELECT * FROM a");
 		verify(statement).executeQuery();
+		assertEquals(result, object);
 	}
 
-	private void verifySet(ResultSet set) {
+	private Object verifySet(ResultSet set) {
 		assertEquals(set, resultSet);
+		return object;
 	}
 
 	@Test public void testFromWithColumnsHasAProperSelectCall() throws Exception {

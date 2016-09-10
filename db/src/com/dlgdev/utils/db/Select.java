@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
@@ -36,7 +36,7 @@ public class Select {
 		return this;
 	}
 
-	public void execute(Consumer<ResultSet> consumer) {
+	public <T> T execute(Function<ResultSet, T> function) {
 		try(Connection connection = dataSource.getConnection()) {
 			PreparedStatement statement = connection.prepareStatement(sql.toString());
 			if(whereArgs != null) {
@@ -46,7 +46,7 @@ public class Select {
 			}
 			ResultSet set = statement.executeQuery();
 			if(set != null) {
-				consumer.accept(set);
+				return function.apply(set);
 			} else {
 				throw new RuntimeException("Error while running the query: " + sql.toString());
 			}
