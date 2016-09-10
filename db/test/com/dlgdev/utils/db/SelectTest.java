@@ -45,6 +45,13 @@ public class SelectTest {
 		assertEquals(set, resultSet);
 	}
 
+	@Test public void testFromWithColumnsHasAProperSelectCall() throws Exception {
+		String[] columns = {"a", "b"};
+		new Select(source, columns).from("a").execute(this::verifySet);
+		verify(connection).prepareStatement("SELECT a,b FROM a");
+		verify(statement).executeQuery();
+	}
+
 	@Test public void testWithWhereMakesARestrictedSearch() throws SQLException {
 		String[] whereArgs = {"1"};
 		new Select(source).from("a").where("a=?", whereArgs).execute(this::verifySet);
