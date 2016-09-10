@@ -1,5 +1,7 @@
 package com.dlgdev.utils.db;
 
+import com.dlgdev.utils.db.exceptions.MalformedSqlException;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Connection;
@@ -35,13 +37,10 @@ public class Select {
 
 	public Select where(String where, String[] whereArgs) {
 		if (StringUtils.isEmpty(where)) {
-			throw new RuntimeException("You passed a where without content. Idiot.");
+			throw new MalformedSqlException("You passed a where without content. Idiot.");
 		}
-		int parameterCount = StringUtils.countMatches(where, "?");
-		if (parameterCount <= 0 || whereArgs.length <= 0) {
-			throw new RuntimeException("Hey dude, parametrize the thing.");
-		} else if (parameterCount != whereArgs.length) {
-			throw new RuntimeException("Align your questions and answers m8...");
+		if (StringUtils.countMatches(where, "?") != whereArgs.length) {
+			throw new MalformedSqlException("Align your questions and answers m8...");
 		}
 		sql.append(" WHERE ").append(where);
 		this.whereArgs = whereArgs;

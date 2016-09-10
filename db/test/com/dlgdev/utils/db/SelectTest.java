@@ -1,5 +1,7 @@
 package com.dlgdev.utils.db;
 
+import com.dlgdev.utils.db.exceptions.MalformedSqlException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -66,7 +68,7 @@ public class SelectTest {
 
 	@Test public void testWithEmptyWhereThrowsException() {
 		try {
-			new Select(source).from("a").where("", null).execute(this::verifySet);
+			new Select(source).from("a").where("", null);
 		} catch (RuntimeException e) {
 			assertTrue(e.getMessage().contains("Idiot"));
 		}
@@ -74,8 +76,24 @@ public class SelectTest {
 
 	@Test public void testWithNullTextWhereThrowsException() {
 		try {
-			new Select(source).from("a").where(null, null).execute(this::verifySet);
-		} catch (RuntimeException e) {
+			new Select(source).from("a").where(null, null);
+		} catch (MalformedSqlException e) {
+			assertTrue(e.getMessage().contains("Idiot"));
+		}
+	}
+
+	@Test public void testWithMisalignedWhereAndArgsThrowsException() {
+		try {
+			new Select(source).from("a").where("asdf?", null);
+		} catch (MalformedSqlException e) {
+			assertTrue(e.getMessage().contains("m8"));
+		}
+	}
+
+	@Test public void testWithInvertedMisalignedWhereAndArgsThrowsException() {
+		try {
+			new Select(source).from("a").where("a", new String[] {"a"});
+		} catch (MalformedSqlException e) {
 			assertTrue(e.getMessage().contains("Idiot"));
 		}
 	}
