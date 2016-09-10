@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -61,5 +62,21 @@ public class SelectTest {
 		verify(connection).prepareStatement("SELECT * FROM a WHERE a=?");
 		verify(statement, times(whereArgs.length)).setString(anyInt(), anyString());
 		verify(statement).executeQuery();
+	}
+
+	@Test public void testWithEmptyWhereThrowsException() {
+		try {
+			new Select(source).from("a").where("", null).execute(this::verifySet);
+		} catch (RuntimeException e) {
+			assertTrue(e.getMessage().contains("Idiot"));
+		}
+	}
+
+	@Test public void testWithNullTextWhereThrowsException() {
+		try {
+			new Select(source).from("a").where(null, null).execute(this::verifySet);
+		} catch (RuntimeException e) {
+			assertTrue(e.getMessage().contains("Idiot"));
+		}
 	}
 }

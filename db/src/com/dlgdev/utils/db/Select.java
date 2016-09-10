@@ -1,5 +1,7 @@
 package com.dlgdev.utils.db;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,25 +29,35 @@ public class Select {
 	}
 
 	public Select from(String tableName) {
-		sql.append(" FROM " ).append(tableName);
+		sql.append(" FROM ").append(tableName);
 		return this;
 	}
+
 	public Select where(String where, String[] whereArgs) {
+		if (StringUtils.isEmpty(where)) {
+			throw new RuntimeException("You passed a where without content. Idiot.");
+		}
+		int parameterCount = StringUtils.countMatches(where, "?");
+		if (parameterCount <= 0 || whereArgs.length <= 0) {
+			throw new RuntimeException("Hey dude, parametrize the thing.");
+		} else if (parameterCount != whereArgs.length) {
+			throw new RuntimeException("Align your questions and answers m8...");
+		}
 		sql.append(" WHERE ").append(where);
 		this.whereArgs = whereArgs;
 		return this;
 	}
 
 	public <T> T execute(Function<ResultSet, T> function) {
-		try(Connection connection = dataSource.getConnection()) {
+		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement statement = connection.prepareStatement(sql.toString());
-			if(whereArgs != null) {
-				for(int i = 1, len = whereArgs.length; i <= len; i++) {
+			if (whereArgs != null) {
+				for (int i = 1, len = whereArgs.length; i <= len; i++) {
 					statement.setString(i, whereArgs[i - 1]);
 				}
 			}
 			ResultSet set = statement.executeQuery();
-			if(set != null) {
+			if (set != null) {
 				return function.apply(set);
 			} else {
 				throw new RuntimeException("Error while running the query: " + sql.toString());
