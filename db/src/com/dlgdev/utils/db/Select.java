@@ -39,6 +39,11 @@ public class Select {
 	public void execute(Consumer<ResultSet> consumer) {
 		try(Connection connection = dataSource.getConnection()) {
 			PreparedStatement statement = connection.prepareStatement(sql.toString());
+			if(whereArgs != null) {
+				for(int i = 1, len = whereArgs.length; i <= len; i++) {
+					statement.setString(i, whereArgs[i - 1]);
+				}
+			}
 			ResultSet set = statement.executeQuery();
 			if(set != null) {
 				consumer.accept(set);
