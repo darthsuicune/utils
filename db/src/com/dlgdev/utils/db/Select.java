@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 import javax.sql.DataSource;
 
 public class Select {
-	private DataSource dataSource;
-	private StringBuilder sql;
+	private final DataSource dataSource;
+	private final StringBuilder sql;
 	private String[] whereArgs;
 
 	public Select(DataSource dataSource) {
