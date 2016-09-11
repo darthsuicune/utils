@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="db:jar">
+    <output-path>$PROJECT_DIR$/db/out/artifacts/db_jar</output-path>
+    <root id="archive" name="db.jar">
+      <element id="module-output" name="db" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>
