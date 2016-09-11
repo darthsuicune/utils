@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact build-on-make="true" name="db:jar with dependencies">
-    <output-path>$PROJECT_DIR$/db/out/artifacts/db_jar_dependencies</output-path>
+  <artifact build-on-make="true" name="utils-db">
+    <output-path>$PROJECT_DIR$/db/out/artifacts/utils-db</output-path>
     <root id="root">
       <element id="library" level="project" name="org.apache.commons:commons-lang3:3.4" />
       <element id="artifact" artifact-name="db:jar" />
