@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 import javax.sql.DataSource;
 
-public class QueryExecutor {
+class QueryExecutor {
 	private DataSource dataSource;
 	private String[] whereArgs;
 

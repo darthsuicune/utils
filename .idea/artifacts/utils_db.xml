@@ -3,7 +3,12 @@
     <output-path>$PROJECT_DIR$/db/out/artifacts/utils-db</output-path>
     <root id="root">
       <element id="library" level="project" name="org.apache.commons:commons-lang3:3.4" />
-      <element id="artifact" artifact-name="db:jar" />
+      <element id="archive" name="db.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/db/src/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="module-output" name="db" />
+      </element>
     </root>
   </artifact>
 </component>

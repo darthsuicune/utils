@@ -2,6 +2,7 @@ package com.dlgdev.utils.db;
 
 import com.dlgdev.utils.db.exceptions.MalformedSqlException;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.ResultSet;
@@ -24,22 +25,26 @@ public class Where {
 		}
 		int parameterCount = StringUtils.countMatches(where, "?");
 		if ((whereArgs != null && parameterCount != whereArgs.length) ||
-				(whereArgs == null && parameterCount > 0)) {
+				((whereArgs == null || whereArgs.length == 0) && parameterCount > 0)) {
 			throw new MalformedSqlException("Align your questions and answers m8...");
 		}
 	}
 
 	public Where and(String where, String[] whereArgs) {
 		checkPreconditionsOrThrow(where, whereArgs);
+		this.whereArgs = ArrayUtils.addAll(this.whereArgs, ArrayUtils.nullToEmpty(whereArgs));
+		sql.append(" AND ").append(where);
 		return this;
 	}
 
 	public Where or(String where, String[] whereArgs) {
 		checkPreconditionsOrThrow(where, whereArgs);
+		this.whereArgs = ArrayUtils.addAll(this.whereArgs, ArrayUtils.nullToEmpty(whereArgs));
+		sql.append(" OR ").append(where);
 		return this;
 	}
 
-	public <T> T execute(Function<ResultSet, T> function) {
+	public <T> T apply(Function<ResultSet, T> function) {
 		executor.setWhereArgs(whereArgs);
 		return executor.run(sql.toString(), function);
 	}
