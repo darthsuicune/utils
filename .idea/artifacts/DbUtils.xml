@@ -1,11 +1,10 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="DbUtils">
+  <artifact name="DbUtils">
     <output-path>$PROJECT_DIR$/out/artifacts/DbUtils</output-path>
-    <root id="archive" name="DbUtils.jar">
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/db/META-INF/MANIFEST.MF" />
+    <root id="root">
+      <element id="archive" name="db.jar">
+        <element id="module-output" name="db" />
       </element>
-      <element id="module-output" name="db" />
       <element id="library" level="project" name="org.apache.commons:commons-lang3:3.4" />
     </root>
   </artifact>
