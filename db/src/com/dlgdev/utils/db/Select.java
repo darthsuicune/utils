@@ -1,13 +1,6 @@
 package com.dlgdev.utils.db;
 
-import com.dlgdev.utils.db.exceptions.MalformedSqlException;
-
-import org.apache.commons.lang3.StringUtils;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -17,7 +10,6 @@ import javax.sql.DataSource;
 public class Select {
 	private final DataSource dataSource;
 	private final StringBuilder sql;
-	private String[] whereArgs;
 
 	public Select(DataSource dataSource) {
 		this.dataSource = dataSource;
@@ -30,40 +22,29 @@ public class Select {
 				Collectors.joining(",")));
 	}
 
-	public Select from(String tableName) {
+	public From from(String tableName) {
 		sql.append(" FROM ").append(tableName);
-		return this;
+		return new From(new QueryExecutor(dataSource), sql);
 	}
 
-	public Select where(String where, String[] whereArgs) {
-		if (StringUtils.isEmpty(where)) {
-			throw new MalformedSqlException("You passed a where without content. Idiot.");
+	public class From {
+		private final QueryExecutor queryExecutor;
+		private StringBuilder sql;
+
+		public From(QueryExecutor queryExecutor, StringBuilder sql) {
+			this.queryExecutor = queryExecutor;
+			this.sql = sql;
 		}
-		if (StringUtils.countMatches(where, "?") != whereArgs.length) {
-			throw new MalformedSqlException("Align your questions and answers m8...");
+
+		public Where where(String where, String[] whereArgs) {
+			Where.checkPreconditionsOrThrow(where, whereArgs);
+			sql.append(" WHERE ").append(where);
+			return new Where(queryExecutor, sql, whereArgs);
 		}
-		sql.append(" WHERE ").append(where);
-		this.whereArgs = whereArgs;
-		return this;
+
+		public <T> T execute(Function<ResultSet, T> function) {
+			return queryExecutor.run(sql.toString(), function);
+		}
 	}
 
-	public <T> T execute(Function<ResultSet, T> function) {
-		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement statement = connection.prepareStatement(sql.toString());
-			if (whereArgs != null) {
-				for (int i = 1, len = whereArgs.length; i <= len; i++) {
-					statement.setString(i, whereArgs[i - 1]);
-				}
-			}
-			ResultSet set = statement.executeQuery();
-			if (set != null) {
-				return function.apply(set);
-			} else {
-				throw new RuntimeException("Error while running the query: " + sql.toString());
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Error while running the query: " + sql.toString(), e);
-		}
-	}
 }

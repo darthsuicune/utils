@@ -69,7 +69,7 @@ public class SelectTest {
 	@Test public void testWithEmptyWhereThrowsException() {
 		try {
 			new Select(source).from("a").where("", null);
-		} catch (RuntimeException e) {
+		} catch (MalformedSqlException e) {
 			assertTrue(e.getMessage().contains("Idiot"));
 		}
 	}
@@ -94,7 +94,7 @@ public class SelectTest {
 		try {
 			new Select(source).from("a").where("a", new String[] {"a"});
 		} catch (MalformedSqlException e) {
-			assertTrue(e.getMessage().contains("Idiot"));
+			assertTrue(e.getMessage().contains("m8"));
 		}
 	}
 }
