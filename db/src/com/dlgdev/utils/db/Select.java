@@ -8,23 +8,23 @@ import java.util.stream.Collectors;
 import javax.sql.DataSource;
 
 public class Select {
-	private final DataSource dataSource;
+	private final QueryExecutor queryExecutor;
 	private final StringBuilder sql;
 
 	public Select(DataSource dataSource) {
-		this.dataSource = dataSource;
+		this.queryExecutor = new QueryExecutor(dataSource);
 		sql = new StringBuilder("SELECT *");
 	}
 
 	public Select(DataSource dataSource, String[] columns) {
-		this.dataSource = dataSource;
+		this.queryExecutor = new QueryExecutor(dataSource);
 		sql = new StringBuilder("SELECT " + Arrays.stream(columns).collect(
 				Collectors.joining(",")));
 	}
 
 	public From from(String tableName) {
 		sql.append(" FROM ").append(tableName);
-		return new From(new QueryExecutor(dataSource), sql);
+		return new From(queryExecutor, sql);
 	}
 
 	public class From {
