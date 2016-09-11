@@ -29,11 +29,11 @@ public class QueryExecutor {
 				return function.apply(set);
 			} else {
 				throw new RuntimeException(
-						"Error while running the query, resultSet is null: " + sql.toString());
+						"Error while running the query, resultSet is null: " + sql);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Error while running the query: " + sql.toString(), e);
+			throw new RuntimeException("Error while running the query: " + sql, e);
 		}
 	}
 
