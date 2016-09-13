@@ -42,4 +42,19 @@ public class InsertTest extends SqlTest{
 		Insert.into(source, "a").values(list).run();
 		verify(connection).prepareStatement("INSERT INTO a(b,c) VALUES (d,e),(f,g)");
 	}
+
+	@Test public void insertUnalignedValues() throws Exception {
+		Collection<Map<String, String>> list = new ArrayList<>(2);
+		Map<String, String> values = new HashMap<>(2);
+		values.put("b", "d");
+		values.put("c", "e");
+		list.add(values);
+		values = new HashMap<>(2);
+		values.put("b", "f");
+		values.put("c", "g");
+		values.put("h", "i");
+		list.add(values);
+		Insert.into(source, "a").values(list).run();
+		verify(connection).prepareStatement("INSERT INTO a(b,c,h) VALUES (d,e,null),(f,g,i)");
+	}
 }

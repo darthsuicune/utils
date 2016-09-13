@@ -34,6 +34,13 @@ public class Insert {
 		return new Insert(source, tableName);
 	}
 
+	/**
+	 * This method sets up a row of values to be inserted. It can be called repeatedly
+	 *
+	 * @param values a map where the "key" is the column name and the "value" is the value to insert in
+	 *               that column
+	 * @return this object
+	 */
 	public Insert values(Map<String, String> values) {
 		if (values.isEmpty()) {
 			throw new MalformedSqlException("You have to give the table name");
@@ -42,8 +49,16 @@ public class Insert {
 		return this;
 	}
 
+	/**
+	 * Convenience method for passing a collection of items. Refer to the values(Map) documentation
+	 * for reference on how to pass the values properly. Empty items will be filtered out.
+	 *
+	 * @param values Collection containing the maps with values
+	 * @return instance of this to keep building on it.
+	 */
 	public Insert values(Collection<Map<String, String>> values) {
-		this.values.addAll(values);
+		this.values
+				.addAll(values.stream().filter(map -> !map.isEmpty()).collect(Collectors.toList()));
 		return this;
 	}
 
@@ -56,9 +71,7 @@ public class Insert {
 		Set<String> columns = new LinkedHashSet<>();
 		List<String> items = new ArrayList<>(values.size());
 		values.forEach(item -> {
-			item.forEach((key, value) -> {
-				columns.add(key);
-			});
+			item.forEach((key, value) -> columns.add(key));
 		});
 		values.forEach(item -> {
 			items.add(buildItemString(columns, item));
@@ -72,7 +85,7 @@ public class Insert {
 	private String buildItemString(Set<String> columns, Map<String, String> item) {
 		StringBuilder builder = new StringBuilder("(");
 		columns.forEach(column -> {
-			if(item.containsKey(column)) {
+			if (item.containsKey(column)) {
 				builder.append(item.get(column));
 			} else {
 				builder.append("null");
