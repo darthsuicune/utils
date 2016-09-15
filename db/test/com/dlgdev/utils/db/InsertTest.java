@@ -57,4 +57,12 @@ public class InsertTest extends SqlTest{
 		Insert.into(source, "a").values(list).run();
 		verify(connection).prepareStatement("INSERT INTO a(b,c,h) VALUES (d,e,null),(f,g,i)");
 	}
+
+	@Test public void anEmptyValuesThrowsAnException() {
+		try {
+			Insert.into(source, "a").values((Map<String,String>)null);
+		} catch (MalformedSqlException e) {
+			assertNotNull(e);
+		}
+	}
 }

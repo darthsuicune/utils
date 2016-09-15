@@ -42,7 +42,7 @@ public class Insert {
 	 * @return this object
 	 */
 	public Insert values(Map<String, String> values) {
-		if (values.isEmpty()) {
+		if (values == null || values.isEmpty()) {
 			throw new MalformedSqlException("You have to give the table name");
 		}
 		this.values.add(values);
