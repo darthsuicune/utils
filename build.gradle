@@ -1,0 +1,24 @@
+group 'com.dlgdev.utils'
+version '0.1-SNAPSHOT'
+
+apply plugin: 'idea'
+
+buildscript {
+    ext.kotlinVersion = "1.0.6"
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+defaultTasks "clean", "build"
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
