@@ -1,10 +1,9 @@
 package com.dlgdev.utils.db
 
 import com.dlgdev.utils.db.sqlite.Select
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-
-import org.junit.Assert.*
 import org.mockito.Mockito.mock
 import javax.sql.DataSource
 
