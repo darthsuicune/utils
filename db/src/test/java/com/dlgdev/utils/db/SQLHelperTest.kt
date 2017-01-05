@@ -1,5 +1,6 @@
 package com.dlgdev.utils.db
 
+import com.dlgdev.utils.db.sqlite.Select
 import org.junit.Before
 import org.junit.Test
 
@@ -17,11 +18,11 @@ class SQLHelperTest {
 
     @Test
     fun queryWithoutColumns() {
-        fail()
+        assertTrue(sqlHelper.query() is Select)
     }
 
     @Test fun queryWithColumns() {
-        fail()
+        assertTrue(sqlHelper.query("asdf") is Select)
     }
 
 }

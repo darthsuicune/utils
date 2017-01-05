@@ -2,11 +2,15 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 
 dependencies {
-    compile "org.apache.commons:commons-lang3:3.4"
+    def commonsLangVersion = "3.4"
+    compile "org.apache.commons:commons-lang3:$commonsLangVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
-    testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-core:2.5.3"
+    def junitVersion = "4.12"
+    def mockitoVersion = "2.5.3"
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
 }
 
 task exportJar(type: Jar)
