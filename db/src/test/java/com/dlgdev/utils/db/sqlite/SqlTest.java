@@ -1,4 +1,4 @@
-package com.dlgdev.utils.db;
+package com.dlgdev.utils.db.sqlite;
 
 import org.junit.Before;
 import org.mockito.Mock;

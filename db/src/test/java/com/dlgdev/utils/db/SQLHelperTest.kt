@@ -5,11 +5,12 @@ import org.junit.Before
 import org.junit.Test
 
 import org.junit.Assert.*
+import org.mockito.Mockito.mock
 import javax.sql.DataSource
 
 
 class SQLHelperTest {
-    val dataSource: DataSource? = null
+    val dataSource: DataSource = mock(DataSource::class.java)
     val sqlHelper = SQLHelper(dataSource)
     @Before
     fun setUp() {
