@@ -16,7 +16,11 @@ class SQLHelperTest {
     }
 
     @Test
-    fun query() {
+    fun queryWithoutColumns() {
+        fail()
+    }
+
+    @Test fun queryWithColumns() {
         fail()
     }
 
