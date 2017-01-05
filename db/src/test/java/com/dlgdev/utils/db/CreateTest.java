@@ -1,6 +1,7 @@
 package com.dlgdev.utils.db;
 
 import com.dlgdev.utils.db.exceptions.MalformedSqlException;
+import com.dlgdev.utils.db.sqlite.Create;
 import org.junit.Test;
 
 import java.sql.SQLException;

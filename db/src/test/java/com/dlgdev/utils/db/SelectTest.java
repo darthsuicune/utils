@@ -2,6 +2,7 @@ package com.dlgdev.utils.db;
 
 import com.dlgdev.utils.db.exceptions.MalformedSqlException;
 
+import com.dlgdev.utils.db.sqlite.Select;
 import org.junit.Test;
 
 import java.sql.ResultSet;

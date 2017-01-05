@@ -8,15 +8,15 @@ import java.util.function.Function;
 
 import javax.sql.DataSource;
 
-class QueryExecutor {
+public class QueryExecutor {
 	private DataSource dataSource;
 	private String[] whereArgs;
 
-	QueryExecutor(DataSource dataSource) {
+	public QueryExecutor(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
-	<T> T run(final String sql, Function<ResultSet, T> function) {
+	public <T> T run(final String sql, Function<ResultSet, T> function) {
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			if (whereArgs != null && whereArgs.length > 0) {
@@ -37,7 +37,7 @@ class QueryExecutor {
 		}
 	}
 
-	void setWhereArgs(String[] whereArgs) {
+	public void setWhereArgs(String[] whereArgs) {
 		this.whereArgs = whereArgs;
 	}
 }

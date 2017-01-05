@@ -1,5 +1,6 @@
-package com.dlgdev.utils.db;
+package com.dlgdev.utils.db.sqlite;
 
+import com.dlgdev.utils.db.QueryExecutor;
 import com.dlgdev.utils.db.exceptions.MalformedSqlException;
 
 import org.apache.commons.lang3.ArrayUtils;
