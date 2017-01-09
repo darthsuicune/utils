@@ -1,18 +1,24 @@
 package com.dlgdev.utils.db
 
-import com.dlgdev.utils.db.sqlite.Select
 import javax.sql.DataSource
 
-class SQLHelper(val dataSource: DataSource) {
+class SQLHelper(val dataSource: DataSource, val sourceType: Sources) {
 
     fun query(): Select {
-        return Select(dataSource)
+        when (sourceType) {
+            Sources.SQLITE -> return com.dlgdev.utils.db.sqlite.Select(dataSource)
+            SQLHelper.Sources.MYSQL -> return com.dlgdev.utils.db.mysql.Select(dataSource)
+        }
+
     }
     fun query(vararg columns: String): Select {
-        return Select(dataSource, columns)
+        when (sourceType) {
+            Sources.SQLITE -> return com.dlgdev.utils.db.sqlite.Select(dataSource, columns)
+            Sources.MYSQL -> return com.dlgdev.utils.db.mysql.Select(dataSource, *columns)
+        }
     }
 
-    private enum class Sources {
+    enum class Sources {
         MYSQL(), SQLITE();
     }
 }

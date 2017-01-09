@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
-public class Select {
+public class Select implements com.dlgdev.utils.db.Select {
 	private final QueryExecutor queryExecutor;
 	private final StringBuilder sql;
 
@@ -35,7 +35,7 @@ public class Select {
 		return new From(queryExecutor, sql);
 	}
 
-	public class From {
+	public class From implements com.dlgdev.utils.db.From {
 		private final QueryExecutor queryExecutor;
 		private StringBuilder sql;
 
@@ -44,13 +44,13 @@ public class Select {
 			this.sql = sql;
 		}
 
-		public Where where(String where, String[] whereArgs) {
+		@Override public com.dlgdev.utils.db.Where where(String where, String[] whereArgs) {
 			Where.checkPreconditionsOrThrow(where, whereArgs);
 			sql.append(" WHERE ").append(where);
 			return new Where(queryExecutor, sql, ArrayUtils.nullToEmpty(whereArgs));
 		}
 
-		public <T> T apply(Function<ResultSet, T> function) {
+		@Override public <T> T apply(Function<ResultSet, T> function) {
 			return queryExecutor.run(sql.toString(), function);
 		}
 	}

@@ -8,13 +8,9 @@ import org.mockito.Mockito.mock
 import javax.sql.DataSource
 
 
-class SQLHelperTest {
+class SQLHelperSQLiteTest {
     val dataSource: DataSource = mock(DataSource::class.java)
-    val sqlHelper = SQLHelper(dataSource)
-    @Before
-    fun setUp() {
-
-    }
+    val sqlHelper = SQLHelper(dataSource, SQLHelper.Sources.SQLITE)
 
     @Test
     fun queryWithoutColumns() {
