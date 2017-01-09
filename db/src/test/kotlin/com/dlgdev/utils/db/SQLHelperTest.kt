@@ -11,7 +11,7 @@ import javax.sql.DataSource
 
 class SQLHelperTest {
     val dataSource: DataSource = mock(DataSource::class.java)
-    val sqlHelper = SQLHelper(dataSource)
+    val sqlHelper = SQLHelper(dataSource, SQLHelper.Sources.SQLITE)
     @Before
     fun setUp() {
 
