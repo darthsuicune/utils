@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
-public class Select {
+public class Select implements com.dlgdev.utils.db.Select{
 	private final QueryExecutor queryExecutor;
 	private final StringBuilder sql;
 
