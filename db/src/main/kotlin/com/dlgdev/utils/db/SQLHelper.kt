@@ -8,14 +8,14 @@ class SQLHelper(val dataSource: DataSource, val source: Sources) {
     fun query(): Select {
         when(source) {
             Sources.SQLITE -> return com.dlgdev.utils.db.sqlite.Select(dataSource)
-            Sources.MYSQL -> return com.dlgdev.utils.db.sqlite.Select(dataSource)
+            Sources.MYSQL -> return com.dlgdev.utils.db.mysql.Select(dataSource)
         }
 
     }
     fun query(vararg columns: String): Select {
         when(source) {
             Sources.SQLITE -> return com.dlgdev.utils.db.sqlite.Select(dataSource, columns)
-            Sources.MYSQL -> return com.dlgdev.utils.db.sqlite.Select(dataSource, columns)
+            Sources.MYSQL -> return com.dlgdev.utils.db.mysql.Select(dataSource, columns)
         }
     }
 
