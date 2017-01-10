@@ -8,7 +8,7 @@ import javax.sql.DataSource
 
 class SQLHelperMySqlTest {
     val dataSource: DataSource = Mockito.mock(DataSource::class.java)
-    val sqlHelper = SQLHelper(dataSource, SQLHelper.Sources.SQLITE)
+    val sqlHelper = SQLHelper(dataSource, SQLHelper.Sources.MYSQL)
 
     @Test
     fun queryWithoutColumns() {

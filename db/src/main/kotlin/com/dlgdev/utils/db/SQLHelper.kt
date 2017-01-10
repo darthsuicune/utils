@@ -7,7 +7,7 @@ class SQLHelper(val dataSource: DataSource, val sourceType: Sources) {
     fun query(): Select {
         when (sourceType) {
             Sources.SQLITE -> return com.dlgdev.utils.db.sqlite.Select(dataSource)
-            SQLHelper.Sources.MYSQL -> return com.dlgdev.utils.db.mysql.Select(dataSource)
+            Sources.MYSQL -> return com.dlgdev.utils.db.mysql.Select(dataSource)
         }
 
     }
