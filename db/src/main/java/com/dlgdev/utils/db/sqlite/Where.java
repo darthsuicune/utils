@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.sql.ResultSet;
 import java.util.function.Function;
 
-public class Where {
+public class Where implements com.dlgdev.utils.db.Where {
 	private QueryExecutor executor;
 	private StringBuilder sql;
 	private String[] whereArgs;
@@ -31,21 +31,21 @@ public class Where {
 		}
 	}
 
-	public Where and(String where, String[] whereArgs) {
+	@Override public Where and(String where, String[] whereArgs) {
 		checkPreconditionsOrThrow(where, whereArgs);
 		this.whereArgs = ArrayUtils.addAll(this.whereArgs, ArrayUtils.nullToEmpty(whereArgs));
 		sql.append(" AND ").append(where);
 		return this;
 	}
 
-	public Where or(String where, String[] whereArgs) {
+	@Override public Where or(String where, String[] whereArgs) {
 		checkPreconditionsOrThrow(where, whereArgs);
 		this.whereArgs = ArrayUtils.addAll(this.whereArgs, ArrayUtils.nullToEmpty(whereArgs));
 		sql.append(" OR ").append(where);
 		return this;
 	}
 
-	public <T> T apply(Function<ResultSet, T> function) {
+	@Override public <T> T apply(Function<ResultSet, T> function) {
 		executor.setWhereArgs(whereArgs);
 		return executor.run(sql.toString(), function);
 	}
