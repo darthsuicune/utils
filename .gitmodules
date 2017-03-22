@@ -1,0 +1,3 @@
+[submodule "PokemonDb"]
+	path = PokemonDb
+	url = https://github.com/darthsuicune/PokemonDb.git
