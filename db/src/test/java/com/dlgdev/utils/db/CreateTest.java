@@ -18,7 +18,7 @@ public class CreateTest extends SqlTest {
 	List<String> indices = new ArrayList<>();
 
 	@Test public void willFail() {
-	//	fail();
+		fail();
 	}
 
 	@Test public void comprehensiveApiIsAvailable() {
