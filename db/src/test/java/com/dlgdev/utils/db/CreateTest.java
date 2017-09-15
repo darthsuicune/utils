@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.*;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 
 public class CreateTest extends SqlTest {
@@ -16,10 +15,6 @@ public class CreateTest extends SqlTest {
 	String key = "b";
 	List<Create.ForeignKey> foreignKeys = new ArrayList<>();
 	List<String> indices = new ArrayList<>();
-
-	@Test public void willFail() {
-		fail();
-	}
 
 	@Test public void comprehensiveApiIsAvailable() {
 		fields.put("a", "b");
