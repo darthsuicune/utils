@@ -1,5 +1,5 @@
 group 'com.dlgdev.utils'
-version '0.1-SNAPSHOT'
+version '0.1'
 
 apply plugin: 'idea'
 
